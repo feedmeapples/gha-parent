@@ -1,4 +1,4 @@
 [submodule "test1"]
 	path = test1
 	url = git@github.com:feedmeapples/test1.git
-	branch = main
+	branch = release/v0.1.0

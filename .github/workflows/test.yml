@@ -28,14 +28,22 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Update Submodule branch
+      - name: Create and/or switch to the branch
+        if: github.event.inputs.branch != 'master' # remain on 'main' branch if the target is 'master'
         env:
           SUBMODULE: ${{ github.event.inputs.repo }}
           BRANCH: ${{ github.event.inputs.branch }}
         run: |
           git switch $BRANCH || git switch -c $BRANCH
+
+      - name: Update Submodule branch
+        env:
+          SUBMODULE: ${{ github.event.inputs.repo }}
+          BRANCH: ${{ github.event.inputs.branch }}
+        run: |
           git config --file=.gitmodules submodule.$SUBMODULE.branch $BRANCH
           git submodule update --init --recursive --remote
+
 
       - name: Commit update
         env:

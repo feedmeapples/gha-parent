@@ -3,7 +3,7 @@ name: "Update submodule"
 on:
   workflow_dispatch:
     inputs:
-      submodule:
+      repo:
         description: "submodule"
         required: true
       branch:
@@ -30,7 +30,7 @@ jobs:
 
       - name: Update Submodule branch
         env:
-          SUBMODULE: ${{ github.event.inputs.submodule }}
+          SUBMODULE: ${{ github.event.inputs.repo }}
           BRANCH: ${{ github.event.inputs.branch }}
         run: |
           git switch $BRANCH || git switch -c $BRANCH
@@ -39,7 +39,7 @@ jobs:
 
       - name: Commit update
         env:
-          SUBMODULE: ${{ github.event.inputs.submodule }}
+          SUBMODULE: ${{ github.event.inputs.repo }}
           BRANCH: ${{ github.event.inputs.branch }}
         run: |
           git config --local user.name 'feedmeapples'
